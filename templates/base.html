@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="AWS ECS View">
+    <meta name="author" content="tinhhn.uit@gmail.com">
+    <link rel="icon" type="image/ico" href="https://img.icons8.com/windows/32/000000/amazon-web-services.png">
+    <title>AWS ECS View</title>
+
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  </head>
+  <body>
+
+<nav id="navbar_top" style="background-color:powderblue;" class="navbar navbar-expand-md navbar-light mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='img/aws.svg')}}" alt="AWS icon" height="40px" width="40px" /></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <a class="btn btn-danger" href="/cluster" role="button">Cluster</a>
+            <a class="btn btn-warning" href="/service" role="button">Service</a>
+            <a class="btn btn-success" href="/task" role="button">Task</a>
+        </div>
+    </div>
+    <div class="justify-content-end">
+        <button onClick="refreshPage()" type="button" class="btn btn-outline-primary">Refresh</button>
+        <button onClick="goTop()" type="button" class="btn btn-outline-secondary">Go to Top</button>
+        <button onClick="goBot()" type="button" class="btn btn-outline-success">Go to Bottom</button>
+     </div>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="bg-light p-5 rounded">
+    {% block content %} {% endblock %}
+  </div>
+</main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(){
+          window.addEventListener('scroll', function() {
+              if (window.scrollY > 50) {
+                document.getElementById('navbar_top').classList.add('fixed-top');
+                // add padding top to show content behind navbar
+                navbar_height = document.querySelector('.navbar').offsetHeight;
+                document.body.style.paddingTop = navbar_height + 'px';
+              } else {
+                document.getElementById('navbar_top').classList.remove('fixed-top');
+                 // remove padding top from body
+                document.body.style.paddingTop = '0';
+              }
+          });
+        });
+    </script>
+    <script>
+        function refreshPage(){
+            window.location.reload();
+        }
+    </script>
+    <script>
+        function goTop(){
+            window.scrollTo(0, 0);
+        }
+    </script>
+    <script>
+        function goBot(){
+            window.scrollTo(0,document.body.scrollHeight);
+        }
+    </script>
+
+  </body>
+</html>

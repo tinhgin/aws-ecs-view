@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+            <table id="myTable" class="table table-striped" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Task ID</th>
+                            <th>Status</th>
+                            <th>Task Definition</th>
+                            <th>Docker Tag</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task['taskArn'].split("/")[-1] }}</td>
+                            <td>{{ task['containers'][0]['lastStatus'] }}</td>
+                            <td>{{ task['taskDefinitionArn'].split("/")[-1] }}</td>
+                            <td>{{ task['containers'][0]['image'].split("/")[-1].split(":")[-1] }}</td>
+                            <td><a class="btn btn-info" href="/task/{{ task['taskArn'].split("/")[-1] }}/log" role="button">Get Log</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Task ID</th>
+                            <th>Status</th>
+                            <th>Task Definition</th>
+                            <th>Docker Tag</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+
+
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <button type="button" class="btn btn-primary" xmlns="http://www.w3.org/1999/html">
+      TASK <span class="badge bg-secondary">{{ id }}/{{ task_def }}</span>
+    </button>
+    <button type="button" class="btn btn-primary">
+      DOCKER TAG <span class="badge bg-secondary">{{ docker_tag }}</span>
+    </button>
+    <button type="button" class="btn btn-primary">
+      STATUS <span class="badge bg-secondary">{{ status }}</span>
+    </button>
+
+
+    <div class="container p-5">
+        {% for log_event in log_events %}
+            <b class="font-weight-bold">{{ log_event['timestamp']|ctime }}: </b><small>{{ log_event['message'] }}</small><br>
+        {%endfor%}
+    </div>
+{% endblock %}
+
