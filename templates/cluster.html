@@ -1,5 +1,22 @@
 {% extends 'base.html' %}
 
-{% block content %} <h1>Not done yet</h1> {% endblock %}
+{% block content %}
+    <button type="button" class="btn btn-danger" xmlns="http://www.w3.org/1999/html">
+      CLUSTER <span class="badge bg-secondary">{{ cluster['clusterName'] }}</span>
+    </button>
+    <button type="button" class="btn btn-danger">
+      STATUS <span class="badge bg-secondary">{{ cluster['status'] }}</span>
+    </button>
+    <button type="button" class="btn btn-danger">
+      ACTIVE SERVICE <span class="badge bg-secondary">{{ cluster['activeServicesCount'] }}</span>
+    </button>
+    <button type="button" class="btn btn-danger">
+      ACTIVE TASK <span class="badge bg-secondary">{{ cluster['runningTasksCount'] }}</span>
+    </button>
 
+
+    <div class="container p-5">
+        <small>{{ cluster_des }}</small><br>
+    </div>
+{% endblock %}
 

@@ -3,8 +3,10 @@ import boto3
 import os
 import datetime
 import time
+import json
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 client = boto3.client('ecs')
 logs_client = boto3.client('logs')
 cluster = os.getenv('ECS_CLUSTER')
@@ -36,6 +38,14 @@ def get_tasks():
     return tasks_detail['tasks']
 
 
+def get_services():
+    services_list = client.list_services(cluster=cluster)
+    service_arns = services_list['serviceArns']
+
+    services_description = client.describe_services(cluster=cluster, services=service_arns)
+    return services_description['services']
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -43,12 +53,22 @@ def index():
 
 @app.route('/cluster')
 def cluster_detail():
-    return render_template('cluster.html')
+    cluster_info = client.describe_clusters(clusters=[cluster])['clusters'][0]
+    return render_template('cluster.html', cluster=cluster_info)
 
 
 @app.route('/service')
 def service():
-    return render_template('service.html')
+    return render_template('service.html', services=get_services())
+
+
+# @app.route('/service/<string:service_name>/description')
+# def service_description(service_name):
+#     services = get_services()
+#     service = next(item for item in services if item["serviceName"] == service_name)
+#     print(type(service))
+#     json_object = json.dumps(service, indent=4, sort_keys=True, default=str)
+#     return render_template('service_description.html', service=service, service_des=json_object)
 
 
 @app.route('/task')
